@@ -14,6 +14,35 @@ if (DEV) {
 let mainWindow;
 let store;
 
+/*
+let Db = require('tingodb')().Db;
+
+console.log("hurra");
+console.log(Db);
+
+var db = new Db('./data', {});
+db.collection("batch_document_insert_collection_safe", function(err, collection) {
+console.log(collection);
+    collection.insert([
+        {
+            hello: 'world_safe1'
+        }, {
+            hello: 'world_safe2'
+        }
+    ], function(err, result) {
+
+        console.log("init");
+        // Fetch the document
+        collection.findOne({
+            hello: 'world_safe2'
+        }, function(err, item) {
+            console.log(err);
+            console.log(item);
+        })
+    });
+});
+*/
+
 function createWindow() {
     mainWindow = new BrowserWindow({width: 1200, height: 900});
     if (DEV) {
@@ -32,15 +61,15 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  if (DEV) {
-    const installer = require('electron-devtools-installer');
-    const {REDUX_DEVTOOLS} = installer;
+    if (DEV) {
+        const installer = require('electron-devtools-installer');
+        const {REDUX_DEVTOOLS} = installer;
 
-    installer.default(REDUX_DEVTOOLS).then((name) => console.log(`Added Extension:  ${name}`)).catch((err) => console.log('An error occurred: ', err));
-  }
-  store = require('./store');
+        installer.default(REDUX_DEVTOOLS).then((name) => console.log(`Added Extension:  ${name}`)).catch((err) => console.log('An error occurred: ', err));
+    }
+    store = require('./store');
 
-  createWindow();
+    createWindow();
 });
 
 app.on('window-all-closed', () => {
