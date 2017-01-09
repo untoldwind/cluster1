@@ -8,7 +8,7 @@ import merge from 'webpack-merge';
 const base = {
     devtool: 'source-map',
     entry: {
-        'app': ['./src/renderer/index.js']
+        'app': ['babel-polyfill', './src/renderer/index.js']
     },
     output: {
         path: __dirname + '/build/',

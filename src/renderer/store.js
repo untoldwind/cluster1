@@ -1,4 +1,5 @@
 import {createStore, applyMiddleware, compose} from 'redux';
+import promiseMiddleware from 'redux-promise';
 import {electronEnhancer} from 'redux-electron-store';
 
 const filter = {
@@ -6,7 +7,7 @@ const filter = {
 };
 
 const enhancer = compose(
-  applyMiddleware(),
+  applyMiddleware(promiseMiddleware),
   electronEnhancer({
     filter,
     dispatchProxy: a => store.dispatch(a)

@@ -1,27 +1,10 @@
-export const OPEN_DIRECTORY = 'OPEN_DIRECTORY';
+import {createAction, createActions} from 'redux-actions';
+
 export const ADD_DIRECTORY = 'ADD_DIRECTORY';
 export const REMOVE_DIRECTORY = 'REMOVE_DIRECTORY';
 
-export function openDirectory(filename) {
-  return {
-    type: OPEN_DIRECTORY,
-    filename
-  }
-}
-
-export function addDirectory(id, parent, name, filename) {
-  return {
-    type: ADD_DIRECTORY,
-    id,
-    parent,
-    name,
-    filename
-  }
-}
-
-export function removeDirectory(id) {
-  return {
-    type: REMOVE_DIRECTORY,
-    id
-  }
-}
+export const addDirectories = createAction('ADD_DIRECTORY');
+export const {addDirectory, removeDirectory} = createActions({
+  ADD_DIRECTORY: (id, parent, name, filename) => ([{id, parent, name, filename}]),
+  REMOVE_DIRECTORY: id => id
+});

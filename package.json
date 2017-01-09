@@ -43,11 +43,13 @@
   },
   "dependencies": {
     "@salesforce-ux/design-system": "^2.1.4",
+    "babel-polyfill": "^6.20.0",
     "classnames": "^2.2.5",
     "immutable": "^3.8.1",
     "preact": "^7.1.0",
     "preact-redux": "^1.2.0",
     "redux": "^3.6.0",
+    "redux-actions": "^1.2.0",
     "redux-electron-store": "^0.4.1",
     "redux-promise": "^0.5.3",
     "svg4everybody": "^2.1.4",

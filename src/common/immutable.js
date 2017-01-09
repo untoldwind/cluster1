@@ -3,13 +3,29 @@ class ObjectBuilder {
         this.obj = Object.assign({}, obj);
     }
 
+    get(key, defaultValue) {
+        return this.obj[key] || defaultValue;
+    }
+
     put(key, value) {
         this.obj[key] = value;
         return this;
     }
 
-    remove(key) {
-        delete this.obj[key];
+    remove(...keys) {
+        for (const key of keys) {
+            delete this.obj[key];
+        }
+        return this;
+    }
+
+    update(key, updater, defaultValue) {
+        const old = this.obj[key] || defaultValue
+        if (old) {
+            const builder = clone(old);
+            updater(builder);
+            this.obj[key] = builder.freeze();
+        }
         return this;
     }
 
@@ -53,11 +69,10 @@ export function clone(obj) {
     return new ObjectBuilder(obj || {});
 }
 
-export function modify(obj, mutator) {
-    const mutable = Array.isArray(obj)
-        ? [].concat(obj)
-        : Object.assign({}, obj);
-
-    mutator(mutable);
-    return Object.freeze(mutable);
+export function wrapHandler(actionHandler) {
+    return (state, action) => {
+        const builder = clone(state);
+        actionHandler(builder, action);
+        return builder.freeze();
+    }
 }
