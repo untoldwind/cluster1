@@ -44,13 +44,15 @@
   "dependencies": {
     "@salesforce-ux/design-system": "^2.1.4",
     "classnames": "^2.2.5",
-    "fs-promise": "^1.0.0",
+    "immutable": "^3.8.1",
     "preact": "^7.1.0",
     "preact-redux": "^1.2.0",
     "redux": "^3.6.0",
     "redux-electron-store": "^0.4.1",
     "redux-promise": "^0.5.3",
-    "svg4everybody": "^2.1.4"
+    "svg4everybody": "^2.1.4",
+    "thenify": "^3.2.1",
+    "thenify-all": "^1.6.0"
   },
   "jest": {
     "verbose": true,

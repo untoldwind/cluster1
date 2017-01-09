@@ -1,7 +1,9 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import {electronEnhancer} from 'redux-electron-store';
 
-const filter = true;
+const filter = {
+  directories: true
+};
 
 const enhancer = compose(
   applyMiddleware(),
