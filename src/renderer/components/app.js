@@ -10,7 +10,7 @@ export default class App extends Component {
                         <Col cols={1}>
                           <Tree>
                             <TreeNode label="bla">
-                            <TreeNode label="blub" leaf={true}>
+                            <TreeNode label="blub3" leaf={true}>
                             </TreeNode>
                             </TreeNode>
                             <TreeNode label="bla2">

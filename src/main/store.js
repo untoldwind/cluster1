@@ -12,4 +12,15 @@ const enhancer = compose(
 
 const store = createStore(rootReducer, {directories:[]}, enhancer);
 
+if(module.hot) {
+  console.log("Iam hot");
+  module.hot.accept('./reducers', () => {
+    store.replaceReducer(require('./reducers').default);
+    console.log('Updated main reducers');
+  });
+  setInterval(() => {
+    module.hot.check(true);
+  }, 1000);
+}
+
 export default store;

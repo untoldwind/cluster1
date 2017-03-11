@@ -68,7 +68,7 @@ const base = {
     }
 };
 
-export default validate(base);
+export default validate(merge(base, {}));
 export const production = validate(merge(base, {
   plugins: [
     new webpack.optimize.UglifyJsPlugin(),
