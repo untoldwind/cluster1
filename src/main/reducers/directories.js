@@ -1,29 +1,43 @@
 import {handleActions} from 'redux-actions';
 import {ADD_DIRECTORY, REMOVE_DIRECTORY} from '../../common/actions/directories';
 import {wrapHandler} from '../../common/immutable';
+import {Map, List} from 'immutable';
 
 export default handleActions({
-    ADD_DIRECTORY: wrapHandler((state, {payload}) => {
-      for(const dir of payload) {
-        state.put(dir.id, {...dir, children: []});
-        state.update(dir.parent, parent => {
-          parent.update('children', children => children.add(dir.id));
-        }, {
-            id: dir.parent,
-            children: []
-        });
-      }
-    }),
+    ADD_DIRECTORY: (state, {payload}) => {
+        for (const dir of payload) {
+            state = state.set(dir.id, {
+                ...dir,
+                children: List()
+            });
+            state = state.update(dir.parent, {
+              id: dir.parent,
+              children: List()
+            }, parent => {
+              return {
+                ...parent,
+                children: parent.children.push(dir.id)
+              };
+            });
+        }
+        return state;
+    },
 
-    REMOVE_DIRECTORY: wrapHandler((state, {payload}) => {
+    REMOVE_DIRECTORY: (state, {payload}) => {
         const dir = state.get(payload);
         if (!dir) {
-            return;
+            return state;
         }
-        state.update(dir.parent, parent => {
-          parent.update('children', children => children.removeItem(payload));
-        });
-        const scan = dir.children || [];
+        if (dir.parent) {
+            state = state.update(dir.parent, parent => {
+              return {
+                ...parent,
+                children: parent.children.delete(parent.children.keyOf(payload))
+              };
+            });
+        }
+
+        const scan = dir.children.toJS() || [];
         const to_remove = [payload];
 
         while (scan.length > 0) {
@@ -31,11 +45,12 @@ export default handleActions({
 
             if (child) {
                 to_remove.push(child.id);
+
                 if (child.children) {
-                    scan.push(...child.children);
+                  scan.push(...child.children.toJS());
                 }
             }
         }
-        state.remove(...to_remove);
-    })
+        return state.deleteAll(to_remove);
+    }
 }, {});

@@ -1,5 +1,5 @@
 import {h, Component} from 'preact';
-import {Grid, Row, Col, Tree, TreeNode} from '../lightning';
+import {Grid, Row, Col, Tree, TreeNode} from 'litening';
 
 export default class App extends Component {
     render() {

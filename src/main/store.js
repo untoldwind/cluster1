@@ -2,6 +2,7 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import promiseMiddleware from 'redux-promise';
 import {electronEnhancer} from 'redux-electron-store';
 import rootReducer from './reducers';
+import {Map} from 'immutable';
 
 const enhancer = compose(
   applyMiddleware(promiseMiddleware),
@@ -10,7 +11,10 @@ const enhancer = compose(
   })
 )
 
-const store = createStore(rootReducer, {directories:[]}, enhancer);
+const initialState = {
+  directories: Map()
+};
+const store = createStore(rootReducer, initialState, enhancer);
 
 if(module.hot) {
   console.log("Iam hot");
