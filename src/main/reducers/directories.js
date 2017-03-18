@@ -5,22 +5,18 @@ import {Map, List} from 'immutable';
 
 export default handleActions({
     ADD_DIRECTORY: (state, {payload}) => {
-        for (const dir of payload) {
-            state = state.set(dir.id, {
-                ...dir,
-                children: List()
-            });
-            state = state.update(dir.parent, {
-              id: dir.parent,
-              children: List()
-            }, parent => {
-              return {
+        return payload.reduce((state, dir) => state.set(dir.id, {
+            ...dir,
+            children: List()
+        }).update(dir.parent, {
+            id: dir.parent,
+            children: List()
+        }, parent => {
+            return {
                 ...parent,
                 children: parent.children.push(dir.id)
-              };
-            });
-        }
-        return state;
+            };
+        }), state);
     },
 
     REMOVE_DIRECTORY: (state, {payload}) => {
@@ -30,10 +26,10 @@ export default handleActions({
         }
         if (dir.parent) {
             state = state.update(dir.parent, parent => {
-              return {
-                ...parent,
-                children: parent.children.delete(parent.children.keyOf(payload))
-              };
+                return {
+                    ...parent,
+                    children: parent.children.delete(parent.children.keyOf(payload))
+                };
             });
         }
 
@@ -47,7 +43,7 @@ export default handleActions({
                 to_remove.push(child.id);
 
                 if (child.children) {
-                  scan.push(...child.children.toJS());
+                    scan.push(...child.children.toJS());
                 }
             }
         }

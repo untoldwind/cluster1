@@ -41,7 +41,7 @@ describe('directories reducers', () => {
                 parent: 'b',
                 name: 'blub',
                 filename: '/blub',
-                children: List([])
+                children: List()
             }
         }));
 

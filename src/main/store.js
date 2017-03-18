@@ -23,7 +23,11 @@ if(module.hot) {
     console.log('Updated main reducers');
   });
   setInterval(() => {
-    module.hot.check(true);
+    try {
+      module.hot.check(true);
+    } catch (err) {
+      console.log(`Hot err ${err}`);
+    }
   }, 1000);
 }
 

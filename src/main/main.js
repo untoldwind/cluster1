@@ -1,6 +1,7 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, Menu} from 'electron';
 import url from 'url';
 import path from 'path';
+import menu from './menu';
 
 const HOST = `localhost:${process.env.PORT || 19998}`;
 const DEV = process.env.NODE_ENV === 'development';
@@ -44,6 +45,8 @@ console.log(collection);
 */
 
 function createWindow() {
+    Menu.setApplicationMenu(menu);
+
     mainWindow = new BrowserWindow({width: 1200, height: 900});
     if (DEV) {
         mainWindow.loadURL(`http://${HOST}/`);
@@ -83,3 +86,20 @@ app.on('activate', () => {
         createWindow()
     }
 });
+
+if (module.hot) {
+  console.log("Iam hot main");
+  module.hot.accept('./menu', () => {
+    const menu = require('./menu').default;
+
+    Menu.setApplicationMenu(menu);
+    console.log('Updated main menu');
+  });
+  setInterval(() => {
+    try {
+      module.hot.check(true);
+    } catch (err) {
+      console.log(`Hot err ${err}`);
+    }
+  }, 1000);
+}
