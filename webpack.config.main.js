@@ -1,4 +1,4 @@
-import webpack, {optimize, HotModuleReplacementPlugin, DefinePlugin} from 'webpack';
+import webpack, {optimize, HotModuleReplacementPlugin, DefinePlugin, NormalModuleReplacementPlugin} from 'webpack';
 import path from 'path';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import validate from 'webpack-validator';
@@ -23,9 +23,16 @@ const base = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: {
-                    presets: ["es2015"]
+                  presets: [
+                      [
+                          "es2015", {
+                              "loose": true
+                          }
+                      ],
+                      "stage-0"
+                  ]
                 }
             }, {
                 test: /\.json$/,
@@ -38,7 +45,8 @@ const base = {
             {
                 from: __dirname + '/src/main/package.json'
             }
-        ])
+        ]),
+        new NormalModuleReplacementPlugin(/^any\-promise$/, 'promise-monofill')
     ],
     node: {
         __dirname: false,

@@ -42,18 +42,16 @@
     "write-file-webpack-plugin": "^3.4.2"
   },
   "dependencies": {
-    "@salesforce-ux/design-system": "^2.1.4",
     "babel-polyfill": "^6.20.0",
-    "classnames": "^2.2.5",
     "immutable": "^4.0.0-rc.2",
     "litening": "github:untoldwind/litening",
     "preact": "^7.1.0",
     "preact-redux": "^1.2.0",
+    "promise-monofill": "^1.0.1",
     "redux": "^3.6.0",
     "redux-actions": "^1.2.0",
     "redux-electron-store": "^0.4.1",
     "redux-promise": "^0.5.3",
-    "svg4everybody": "^2.1.4",
     "thenify": "^3.2.1",
     "thenify-all": "^1.6.0"
   },

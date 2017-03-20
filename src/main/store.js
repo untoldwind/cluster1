@@ -12,7 +12,8 @@ const enhancer = compose(
 )
 
 const initialState = {
-  directories: Map()
+  directories: Map(),
+  bla: "Blub"
 };
 const store = createStore(rootReducer, initialState, enhancer);
 

@@ -24,15 +24,6 @@ export default handleActions({
         if (!dir) {
             return state;
         }
-        if (dir.parent) {
-            state = state.update(dir.parent, parent => {
-                return {
-                    ...parent,
-                    children: parent.children.delete(parent.children.keyOf(payload))
-                };
-            });
-        }
-
         const scan = dir.children.toJS() || [];
         const to_remove = [payload];
 
@@ -47,6 +38,12 @@ export default handleActions({
                 }
             }
         }
-        return state.deleteAll(to_remove);
+
+        return state.update(dir.parent, parent => {
+            return {
+                ...parent,
+                children: parent.children.delete(parent.children.keyOf(payload))
+            };
+        }).deleteAll(to_remove);
     }
-}, {});
+}, Map());
