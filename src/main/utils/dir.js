@@ -1,10 +1,5 @@
 import fs from './fs';
 import path from 'path';
-import crypto from 'crypto'
-
-function mkId(filename) {
-  return crypto.createHash('sha256').update(filename).digest('base64');
-}
 
 export async function scanDir(dir, parent = '_root_') {
   const abs_dir = path.resolve(dir);
@@ -16,7 +11,7 @@ export async function scanDir(dir, parent = '_root_') {
     const stat = await fs.stat(abs_file);
 
     if(stat.isDirectory()) {
-      const id = mkId(abs_file);
+      const id = parent + '/' + file;
       result.push({
         id,
         parent: parent,

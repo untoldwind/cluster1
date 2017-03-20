@@ -17,7 +17,7 @@ const base = {
         chunkFilename: '[id].chunk.js'
     },
     resolve: {
-        extensions: ['', '.jsx', '.js', '.json']
+        extensions: ['.jsx', '.js', '.json']
     },
     module: {
         loaders: [
@@ -61,7 +61,6 @@ const base = {
     devServer: {
         port: process.env.PORT || 19998,
         contentBase: __dirname + '/build/',
-        outputPath: __dirname + '/build/',
         inline: true,
         hot: true,
         historyApiFallback: true

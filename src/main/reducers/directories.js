@@ -1,20 +1,20 @@
 import {handleActions} from 'redux-actions';
 import {ADD_DIRECTORY, REMOVE_DIRECTORY} from '../../common/actions/directories';
 import {wrapHandler} from '../../common/immutable';
-import {Map, List} from 'immutable';
+import {Map, Set} from 'immutable';
 
 export default handleActions({
     ADD_DIRECTORY: (state, {payload}) => {
         return payload.reduce((state, dir) => state.set(dir.id, {
             ...dir,
-            children: List()
+            children: Set()
         }).update(dir.parent, {
             id: dir.parent,
-            children: List()
+            children: Set()
         }, parent => {
             return {
                 ...parent,
-                children: parent.children.push(dir.id)
+                children: parent.children.add(dir.id)
             };
         }), state);
     },
@@ -42,7 +42,7 @@ export default handleActions({
         return state.update(dir.parent, parent => {
             return {
                 ...parent,
-                children: parent.children.delete(parent.children.keyOf(payload))
+                children: parent.children.delete(payload)
             };
         }).deleteAll(to_remove);
     }

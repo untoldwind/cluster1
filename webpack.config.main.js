@@ -16,7 +16,7 @@ const base = {
         chunkFilename: '[id].chunk.js'
     },
     resolve: {
-        extensions: ['', '.js', '.json']
+        extensions: ['.js', '.json']
     },
     module: {
         loaders: [
