@@ -5,7 +5,7 @@ import validate from 'webpack-validator';
 import merge from 'webpack-merge';
 
 const base = {
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     entry: {
         'main': ['babel-polyfill', './src/main/main.js']
     },
@@ -62,6 +62,7 @@ export const development = validate(merge(base, {
 }));
 export default development;
 export const production = validate(merge(base, {
+  devtool: 'hidden-source-map',
   externals: {
     "electron-debug": {},
     "electron-devtools-installer": {}

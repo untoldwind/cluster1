@@ -6,7 +6,7 @@ import validate from 'webpack-validator';
 import merge from 'webpack-merge';
 
 const base = {
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     entry: {
         'app': ['babel-polyfill', './src/renderer/index.js']
     },
@@ -69,6 +69,7 @@ const base = {
 
 export default validate(merge(base, {}));
 export const production = validate(merge(base, {
+  devtool: 'hidden-source-map',
   plugins: [
     new webpack.optimize.UglifyJsPlugin(),
     new DefinePlugin({

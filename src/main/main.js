@@ -1,7 +1,8 @@
-import {app, BrowserWindow, Menu} from 'electron';
+import {app, BrowserWindow, Menu, ipcMain} from 'electron';
 import url from 'url';
 import path from 'path';
 import menu from './menu';
+import command_handler from './command_handler';
 
 const HOST = `localhost:${process.env.PORT || 19998}`;
 const DEV = process.env.NODE_ENV === 'development';
@@ -45,6 +46,7 @@ console.log(collection);
 */
 
 function createWindow() {
+    ipcMain.on('commands', command_handler);
     Menu.setApplicationMenu(menu);
 
     mainWindow = new BrowserWindow({width: 1200, height: 900});
@@ -94,6 +96,11 @@ if (module.hot) {
 
     Menu.setApplicationMenu(menu);
     console.log('Updated main menu');
+  });
+  module.hot.accept('./command_handler', () => {
+    const command_handler = require('./command_handler').default;
+    
+    ipcMain.on('commands', command_handler);
   });
   setInterval(() => {
     try {

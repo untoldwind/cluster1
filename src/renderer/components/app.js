@@ -1,23 +1,17 @@
 import {h, Component} from 'preact';
+import { connect } from 'preact-redux';
 import {Grid, Row, Col, Tree, TreeNode} from 'litening';
+import {DirectoryTree} from './directory_tree';
 
+@connect(state => state)
 export default class App extends Component {
-    render() {
+    render({ directories }) {
         return (
             <div id="root" class="slds">
                 <Grid vertical={true} frame={true}>
                     <Row cols={4} nowrap={true}>
                         <Col cols={1}>
-                          <Tree>
-                            <TreeNode label="bla">
-                            <TreeNode label="blub3" leaf={true}>
-                            </TreeNode>
-                            </TreeNode>
-                            <TreeNode label="bla2">
-                            <TreeNode label="blub2" leaf={true}>
-                            </TreeNode>
-                            </TreeNode>
-                          </Tree>
+                          <DirectoryTree directories={directories}/>
                         </Col>
                         <Col cols={3}>Hurra2</Col>
                     </Row>

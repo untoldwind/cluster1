@@ -1,4 +1,4 @@
-import {createAction} from 'redux-actions';
+import {addDirectories} from '../../common/actions/directories';
 import {scanDir} from '../utils/dir';
 import {dialog} from 'electron';
 import store from '../store';
@@ -12,11 +12,6 @@ export default function() {
     return;
   }
 
-  const action = scanDir(selected[0]).then(dirs => {
-    return {
-      type: "ADD_DIRECTORY",
-      payload: dirs
-    };
-  });
+  const action = addDirectories(scanDir(selected[0]));
   store.dispatch(action);
 }
