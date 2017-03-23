@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "immutable": "^4.0.0-rc.2",
     "litening": "github:untoldwind/litening",
     "preact": "^7.2.0",
     "preact-redux": "^2.0.0",

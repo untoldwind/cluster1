@@ -6,7 +6,7 @@ describe('immutable', () => {
             thing: 'some',
             no: 'thing'
         };
-        const actual = clone(initial).put('thing', 'no').put('some', 'thing').freeze();
+        const actual = clone(initial).set('thing', 'no').set('some', 'thing').freeze();
         expect(initial.thing).toBe('some');
         expect(initial.no).toBe('thing');
         expect(initial.some).toBeUndefined();

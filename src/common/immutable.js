@@ -7,7 +7,7 @@ class ObjectBuilder {
         return this.obj[key] || defaultValue;
     }
 
-    put(key, value) {
+    set(key, value) {
         this.obj[key] = value;
         return this;
     }
@@ -19,12 +19,15 @@ class ObjectBuilder {
         return this;
     }
 
-    update(key, updater, defaultValue) {
-        const old = this.obj[key] || defaultValue
+    update(key, defaultValue, updater) {
+        if (typeof defaultValue === 'function') {
+            updater = defaultValue;
+            defaultValue = undefined;
+        }
+        const old = this.obj[key] || defaultValue;
         if (old) {
             const builder = clone(old);
-            updater(builder);
-            this.obj[key] = builder.freeze();
+            this.obj[key] = updater(builder).freeze();
         }
         return this;
     }
@@ -57,10 +60,19 @@ class ArrayBuilder {
         return this;
     }
 
+    sort(compare) {
+        this.arr.sort(compare);
+        return this;
+    }
+
     freeze() {
         return Object.freeze(this.arr);
     }
 }
+
+export const emptyObj = Object.freeze({});
+
+export const emptyArr = Object.freeze([]);
 
 export function clone(obj) {
     if (Array.isArray(obj)) {

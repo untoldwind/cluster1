@@ -1,30 +1,27 @@
 import {handleActions} from 'redux-actions';
 import {ADD_DIRECTORY, REMOVE_DIRECTORY} from '../../common/actions/directories';
-import {wrapHandler} from '../../common/immutable';
-import {Map, Set} from 'immutable';
+import {clone, emptyArr, emptyObj} from '../../common/immutable';
 
 export default handleActions({
-    ADD_DIRECTORY: (state, {payload}) => {
+    ADD_DIRECTORY: (oldState, {payload}) => {
         return payload.reduce((state, dir) => state.set(dir.id, {
             ...dir,
-            children: Set()
+            children: emptyArr
         }).update(dir.parent, {
             id: dir.parent,
-            children: Set()
+            children: emptyArr
         }, parent => {
-            return {
-                ...parent,
-                children: parent.children.add(dir.id)
-            };
-        }), state);
+            return parent.update('children', children => children.add(dir.id).sort());
+        }), clone(oldState)).freeze();
     },
 
-    REMOVE_DIRECTORY: (state, {payload}) => {
+    REMOVE_DIRECTORY: (oldState, {payload}) => {
+        const state = clone(oldState);
         const dir = state.get(payload);
         if (!dir) {
             return state;
         }
-        const scan = dir.children.toJS() || [];
+        const scan = dir.children || [];
         const to_remove = [payload];
 
         while (scan.length > 0) {
@@ -34,16 +31,13 @@ export default handleActions({
                 to_remove.push(child.id);
 
                 if (child.children) {
-                    scan.push(...child.children.toJS());
+                    scan.push(...child.children);
                 }
             }
         }
 
         return state.update(dir.parent, parent => {
-            return {
-                ...parent,
-                children: parent.children.delete(payload)
-            };
-        }).deleteAll(to_remove);
+            return parent.update('children', children => children.removeItem(dir.id));
+        }).remove(...to_remove).freeze();
     }
-}, Map());
+}, emptyObj);

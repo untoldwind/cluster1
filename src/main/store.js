@@ -2,7 +2,6 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import promiseMiddleware from 'redux-promise';
 import {electronEnhancer} from 'redux-electron-store';
 import rootReducer from './reducers';
-import {Map} from 'immutable';
 
 const enhancer = compose(
   applyMiddleware(promiseMiddleware),
@@ -12,7 +11,7 @@ const enhancer = compose(
 )
 
 const initialState = {
-  directories: Map(),
+  directories: {},
   bla: "Blub"
 };
 const store = createStore(rootReducer, initialState, enhancer);
