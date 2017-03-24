@@ -3,7 +3,8 @@ import promiseMiddleware from 'redux-promise';
 import {electronEnhancer} from 'redux-electron-store';
 
 const filter = {
-  directories: true
+  directories: true,
+  currentDirectory: true
 };
 
 const enhancer = compose(

@@ -99,7 +99,8 @@ if (module.hot) {
   });
   module.hot.accept('./command_handler', () => {
     const command_handler = require('./command_handler').default;
-    
+
+    ipcMain.removeAllListeners('commands');
     ipcMain.on('commands', command_handler);
   });
   setInterval(() => {

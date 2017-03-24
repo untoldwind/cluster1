@@ -1,4 +1,4 @@
-import {scanDir} from './dir';
+import {scanDir, imageFiles} from './dir';
 
 describe('directory utils', () => {
     it('should scan entire tree', () => {
@@ -22,5 +22,14 @@ describe('directory utils', () => {
                 }
             ]);
         });
+    });
+
+    it('should find images in directory', () => {
+      return imageFiles('./src/fixtures/dirA').then(res => {
+        expect(res).toEqual([{
+          filename: "/home/bjunglas/workspaces/o1/cluster1/src/fixtures/dirA/pexels-photo-239898.jpeg",
+          name: "pexels-photo-239898.jpeg"
+        }]);
+      });
     });
 });

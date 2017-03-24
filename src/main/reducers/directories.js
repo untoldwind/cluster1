@@ -1,18 +1,16 @@
 import {handleActions} from 'redux-actions';
-import {ADD_DIRECTORY, REMOVE_DIRECTORY} from '../../common/actions/directories';
-import {clone, emptyArr, emptyObj} from '../../common/immutable';
+import {ADD_DIRECTORY, REMOVE_DIRECTORY,} from '../../common/actions/directories';
+import {clone, emptyArr, emptyObj,} from '../../common/immutable';
 
 export default handleActions({
     ADD_DIRECTORY: (oldState, {payload}) => {
         return payload.reduce((state, dir) => state.set(dir.id, {
             ...dir,
-            children: emptyArr
+            children: emptyArr,
         }).update(dir.parent, {
             id: dir.parent,
-            children: emptyArr
-        }, parent => {
-            return parent.update('children', children => children.add(dir.id).sort());
-        }), clone(oldState)).freeze();
+            children: emptyArr,
+        }, parent => parent.update('children', children => children.add(dir.id).sort())), clone(oldState)).freeze();
     },
 
     REMOVE_DIRECTORY: (oldState, {payload}) => {
@@ -36,8 +34,9 @@ export default handleActions({
             }
         }
 
-        return state.update(dir.parent, parent => {
-            return parent.update('children', children => children.removeItem(dir.id));
-        }).remove(...to_remove).freeze();
-    }
+        return state
+            .update(dir.parent, parent => parent.update('children', children => children.removeItem(dir.id)))
+            .remove(...to_remove)
+            .freeze();
+    },
 }, emptyObj);
